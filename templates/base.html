@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}TrustVault{% endblock %}</title>
+  <style>
+    :root{--ink:#182230;--muted:#667085;--line:#e5e9f0;--paper:#f5f7fb;--navy:#15253f;--blue:#4361ee;--teal:#19a7a1;--red:#b42318}
+    *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+    a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}.top{background:var(--navy);color:white;padding:15px 4vw;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+    .brand{font-weight:800;font-size:21px;letter-spacing:-.5px;color:white}.brand span{color:#76e0d6}.nav{display:flex;align-items:center;gap:18px}.nav a{color:#e5ecf8}.wrap{max-width:1180px;margin:30px auto;padding:0 22px}
+    .hero{background:linear-gradient(120deg,#172944,#264a70);color:white;border-radius:20px;padding:30px 32px;margin-bottom:24px;box-shadow:0 10px 30px #17294412}.hero h1{margin:0 0 8px;font-size:30px;letter-spacing:-1px}.hero p{margin:0;color:#d5e2f3;max-width:680px}
+    .row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.spread{justify-content:space-between}.card{background:white;border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:0 4px 16px #15253f05}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:16px}.muted{color:var(--muted)}.small{font-size:12px}.btn{display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:9px;padding:10px 15px;background:var(--blue);color:white;font-weight:650;cursor:pointer;font-size:14px}.btn:hover{color:white;text-decoration:none;filter:brightness(.96)}.btn.secondary{background:#eef2ff;color:#3448b8}.btn.dark{background:#22344d}.btn.danger{background:#fff0ef;color:var(--red)}.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--ink)}
+    input,select,textarea{width:100%;padding:11px 12px;border:1px solid #d5dce7;border-radius:9px;background:#fff;color:var(--ink);font:inherit}label{font-weight:650;display:block;margin:12px 0 6px}form p{margin:12px 0}input[type=checkbox]{width:auto}.filters{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr auto;gap:10px;align-items:end}.filters label{font-size:12px;margin-top:0}.doc-title{font-size:17px;font-weight:750;color:var(--ink);overflow-wrap:anywhere}.file-icon{width:42px;height:42px;border-radius:12px;background:#e8f6f4;color:#087f78;display:grid;place-items:center;font-weight:800}.pill{display:inline-block;border-radius:100px;padding:4px 9px;background:#edf2ff;color:#3448b8;font-size:12px;font-weight:700}.pill.green{background:#e5f8f1;color:#087f5b}.pill.red{background:#fff0ef;color:#b42318}.messages{list-style:none;padding:0}.messages li{padding:12px 15px;background:#e7f8ef;border:1px solid #b7ebce;border-radius:10px;margin-bottom:8px}.errors{color:var(--red);font-size:13px}.table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;background:white}th,td{text-align:left;border-bottom:1px solid var(--line);padding:12px 10px;font-size:13px;vertical-align:top}th{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.06em}.section-title{font-size:19px;margin:0 0 15px}.empty{text-align:center;padding:45px 20px}.empty .emoji{font-size:32px}.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}.meta div{background:#f7f9fc;border:1px solid var(--line);padding:13px;border-radius:10px}.footer{text-align:center;color:var(--muted);font-size:12px;padding:35px 10px}.loginbox{max-width:440px;margin:55px auto}.loginbox .card{padding:30px}.danger-zone{border:1px solid #ffd4d0;background:#fffafa;border-radius:12px;padding:16px;margin-top:20px}
+    @media(max-width:850px){.filters{grid-template-columns:1fr 1fr}.hero h1{font-size:25px}.wrap{margin:20px auto}.top{padding:14px 22px}}@media(max-width:520px){.filters{grid-template-columns:1fr}.hero{padding:23px}.nav{gap:10px;font-size:13px}}
+  </style>
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="{% url 'dashboard' %}">◈ Trust<span>Vault</span></a>
+  {% if request.user.is_authenticated %}
+  <nav class="nav">
+    <a href="{% url 'dashboard' %}">Documents</a>
+    <a href="{% url 'upload_document' %}">Upload</a>
+    {% if request.user.is_staff %}<a href="{% url 'admin_activity' %}">Audit activity</a>{% endif %}
+    <span class="small">{{ request.user.username }}</span>
+    <form method="post" action="{% url 'logout' %}" style="margin:0">{% csrf_token %}<button class="btn ghost" type="submit" style="color:white;border-color:#61718a;padding:7px 10px">Sign out</button></form>
+  </nav>
+  {% endif %}
+</header>
+<main class="wrap">
+  {% if messages %}<ul class="messages">{% for message in messages %}<li>{{ message }}</li>{% endfor %}</ul>{% endif %}
+  {% block content %}{% endblock %}
+</main>
+<footer class="footer">TrustVault · Private by default · Every access decision is made on the server</footer>
+</body></html>

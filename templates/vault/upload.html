@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Upload · TrustVault{% endblock %}
+{% block content %}
+<div style="max-width:760px;margin:auto">
+  <a href="{% url 'dashboard' %}" class="muted small">← Back to documents</a>
+  <section class="hero" style="margin-top:15px"><h1>Upload a document</h1><p>Files are stored privately and are not exposed through public media URLs. You own every document you upload.</p></section>
+  <div class="card">
+    <h2 class="section-title">Document details</h2>
+    <form method="post" enctype="multipart/form-data">{% csrf_token %}
+      {% if form.non_field_errors %}<div class="errors">{{ form.non_field_errors }}</div>{% endif %}
+      <label for="{{ form.title.id_for_label }}">Document title</label>{{ form.title }}<div class="errors">{{ form.title.errors }}</div>
+      <label for="{{ form.description.id_for_label }}">Description</label>{{ form.description }}<div class="errors">{{ form.description.errors }}</div>
+      <label for="{{ form.category.id_for_label }}">Category</label>{{ form.category }}<div class="errors">{{ form.category.errors }}</div>
+      <label for="{{ form.upload.id_for_label }}">Choose file</label>{{ form.upload }}<div class="errors">{{ form.upload.errors }}</div>
+      <p class="muted small">Allowed formats: PDF, PNG, JPG, TXT, CSV · Maximum 10 MB. File extension and basic content signature are checked.</p>
+      <div class="row" style="margin-top:22px"><button class="btn" type="submit">Upload securely</button><a class="btn ghost" href="{% url 'dashboard' %}">Cancel</a></div>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}{{ document.title }} · TrustVault{% endblock %}
+{% block content %}
+<a href="{% url 'dashboard' %}" class="muted small">← Back to documents</a>
+<section class="hero" style="margin-top:15px">
+  <div class="row spread"><div><p class="small" style="text-transform:uppercase;letter-spacing:.12em;font-weight:700">Protected document</p><h1>{{ document.title }}</h1><p>{{ document.description|default:"No description provided." }}</p></div><span class="pill green">{% if document.owner_id == request.user.id %}You are the owner{% else %}Access granted{% endif %}</span></div>
+</section>
+<div class="card">
+  <h2 class="section-title">Document information</h2>
+  <div class="meta">
+    <div><div class="muted small">Original filename</div><strong>{{ document.original_filename }}</strong></div>
+    <div><div class="muted small">Owner</div><strong>{{ document.owner.username }}</strong></div>
+    <div><div class="muted small">Category</div><strong>{{ document.category.name|default:"Uncategorised" }}</strong></div>
+    <div><div class="muted small">File size</div><strong>{{ document.size_bytes|filesizeformat }}</strong></div>
+    <div><div class="muted small">Uploaded</div><strong>{{ document.created_at|date:"d M Y, H:i" }}</strong></div>
+    <div><div class="muted small">SHA-256</div><span class="small" style="overflow-wrap:anywhere">{{ document.sha256 }}</span></div>
+  </div>
+  <div class="row" style="margin-top:22px">
+    <form method="post" action="{% url 'download_document' document.pk %}">{% csrf_token %}<button class="btn" type="submit">↓ Download file</button></form>
+    {% if can_edit_document %}<a class="btn secondary" href="{% url 'edit_document' document.pk %}">Edit details</a>{% endif %}
+  </div>
+</div>
+{% if can_manage %}
+<div class="card" style="margin-top:20px">
+  <h2 class="section-title">Access management</h2><p class="muted">Grant access to a named active user. Revocation removes the grant immediately; every later request is checked again.</p>
+  <form method="post" action="{% url 'grant_access' document.pk %}" class="row" style="align-items:end">{% csrf_token %}
+    <div style="flex:2;min-width:180px"><label for="{{ grant_form.user.id_for_label }}">User</label>{{ grant_form.user }}</div>
+    <div style="flex:1;min-width:120px"><label for="{{ grant_form.permission.id_for_label }}">Permission</label>{{ grant_form.permission }}</div>
+    <button class="btn" type="submit">Grant / update</button>
+  </form>
+  <h3 style="margin-top:25px">Current grants</h3>
+  {% if grants %}
+  <div class="table-wrap"><table><thead><tr><th>User</th><th>Permission</th><th>Granted by</th><th>Action</th></tr></thead><tbody>
+  {% for g in grants %}<tr><td>{{ g.user.username }}</td><td><span class="pill">{{ g.permission }}</span></td><td>{{ g.granted_by.username }}</td><td><form method="post" action="{% url 'revoke_access' document.pk g.user_id %}">{% csrf_token %}<button class="btn danger" type="submit">Revoke access</button></form></td></tr>{% endfor %}
+  </tbody></table></div>
+  {% else %}<p class="muted">No one else currently has access.</p>{% endif %}
+</div>
+<div class="danger-zone"><h3 style="margin:0 0 5px;color:#b42318">Delete document</h3><p class="muted small">Soft delete removes the document from active access and preserves an audit record. File-retention cleanup is an operational task.</p><form method="post" action="{% url 'delete_document' document.pk %}" onsubmit="return confirm('Delete this document from active access?')">{% csrf_token %}<button class="btn danger" type="submit">Delete document</button></form></div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Audit integrity · TrustVault{% endblock %}
+{% block content %}
+<a href="{% url 'admin_activity' %}" class="muted small">← Back to audit activity</a>
+<section class="hero" style="margin-top:15px"><h1>Audit chain verification</h1><p>Checks each event HMAC and the previous-event link using the configured audit key.</p></section>
+<div class="card">
+{% if failures %}<span class="pill red">Integrity check failed</span><h2>{{ failures|length }} event(s) failed verification</h2><p>Failing event IDs: {{ failures|join:", " }}</p><p class="muted">Preserve the database and investigate. Do not silently rewrite the chain.</p>
+{% else %}<span class="pill green">No mismatches detected</span><h2>All {{ total }} event(s) verified</h2><p class="muted">This is a tamper-evident chain, not a guarantee against an attacker who controls both the database and the audit key. Production deployments should export signed chain heads to separate write-restricted storage.</p>{% endif %}
+</div>
+{% endblock %}

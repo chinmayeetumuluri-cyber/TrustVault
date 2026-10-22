@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Edit {{ document.title }} · TrustVault{% endblock %}
+{% block content %}
+<div style="max-width:760px;margin:auto"><a href="{% url 'document_detail' document.pk %}" class="muted small">← Back to document</a>
+<section class="hero" style="margin-top:15px"><h1>Edit document details</h1><p>Only the owner or a user with explicit edit permission can make changes.</p></section>
+<div class="card"><form method="post">{% csrf_token %}
+<label for="{{ form.title.id_for_label }}">Title</label>{{ form.title }}<div class="errors">{{ form.title.errors }}</div>
+<label for="{{ form.description.id_for_label }}">Description</label>{{ form.description }}<div class="errors">{{ form.description.errors }}</div>
+<label for="{{ form.category.id_for_label }}">Category</label>{{ form.category }}<div class="errors">{{ form.category.errors }}</div>
+<div class="row" style="margin-top:20px"><button class="btn" type="submit">Save changes</button><a class="btn ghost" href="{% url 'document_detail' document.pk %}">Cancel</a></div>
+</form></div></div>
+{% endblock %}

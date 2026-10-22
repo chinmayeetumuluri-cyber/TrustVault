@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block title %}Audit activity · TrustVault{% endblock %}
+{% block content %}
+<section class="hero"><div class="row spread"><div><h1>Audit activity</h1><p>Recent document actions, permission changes and denied attempts. Access is limited to staff accounts.</p></div><a class="btn" href="{% url 'audit_verify' %}">Verify audit chain</a></div></section>
+<div class="card"><div class="row spread"><h2 class="section-title">Latest 500 events</h2><span class="pill">Admin only</span></div><div class="table-wrap"><table><thead><tr><th>Time</th><th>Actor</th><th>Action</th><th>Document</th><th>Target user</th><th>Outcome</th><th>Details</th></tr></thead><tbody>
+{% for e in events %}<tr><td>{{ e.timestamp|date:"d M Y H:i:s" }}</td><td>{{ e.actor_label }}</td><td>{{ e.action }}</td><td>{{ e.document_title|default:"—" }}<div class="muted small">{{ e.document_id }}</div></td><td>{{ e.target_user_label|default:"—" }}</td><td>{% if e.outcome == "denied" %}<span class="pill red">Denied</span>{% elif e.outcome == "allowed" %}<span class="pill green">Allowed</span>{% else %}<span class="pill">{{ e.outcome }}</span>{% endif %}</td><td><span class="small">{{ e.details }}</span></td></tr>{% empty %}<tr><td colspan="7">No activity recorded yet.</td></tr>{% endfor %}
+</tbody></table></div></div>
+{% endblock %}
