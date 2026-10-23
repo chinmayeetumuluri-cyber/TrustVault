@@ -3,7 +3,12 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path("", views.dashboard, name="dashboard"),
+    # Public pages
+    path("", views.home, name="home"),
+    path("accounts/signup/", views.signup, name="signup"),
+
+    # Protected dashboard and document features
+    path("dashboard/", views.dashboard, name="dashboard"),
     path("documents/upload/", views.upload_document, name="upload_document"),
     path(
         "documents/<uuid:document_id>/",

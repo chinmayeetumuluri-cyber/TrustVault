@@ -1,0 +1,149 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to TrustVault</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f3f6fc;
+            color: #17233c;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 8%;
+            background: white;
+            box-shadow: 0 2px 12px #14213d12;
+        }
+        .brand { font-size: 25px; font-weight: bold; color: #173f8a; }
+        .brand span { color: #3975e8; }
+        nav { display: flex; gap: 12px; flex-wrap: wrap; }
+        a { text-decoration: none; }
+        .btn {
+            display: inline-block;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            text-align: center;
+        }
+        .primary { background: #245bd6; color: white; }
+        .secondary { border: 1px solid #245bd6; color: #245bd6; }
+        .hero {
+            max-width: 1050px;
+            margin: 65px auto;
+            padding: 35px 24px;
+            display: grid;
+            grid-template-columns: 1.3fr 0.7fr;
+            gap: 45px;
+            align-items: center;
+        }
+        .eyebrow {
+            color: #245bd6;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        h1 { font-size: clamp(38px, 5vw, 58px); line-height: 1.1; margin: 16px 0; }
+        .intro { font-size: 18px; color: #58657c; line-height: 1.7; }
+        .actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 26px; }
+        .panel {
+            background: white;
+            border: 1px solid #e0e7f2;
+            border-radius: 18px;
+            padding: 28px;
+            box-shadow: 0 16px 45px #17233c0c;
+        }
+        .symbol { font-size: 42px; color: #245bd6; }
+        .panel h2 { margin-bottom: 8px; }
+        .panel p, .feature p { color: #647087; line-height: 1.6; }
+        .features {
+            max-width: 1050px;
+            margin: 0 auto 60px;
+            padding: 0 24px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+        .feature {
+            background: white;
+            border: 1px solid #e0e7f2;
+            border-radius: 14px;
+            padding: 22px;
+        }
+        .feature h3 { margin-bottom: 8px; }
+        footer { text-align: center; padding: 24px; color: #758198; }
+        @media (max-width: 700px) {
+            header { padding: 18px 5%; }
+            .hero { grid-template-columns: 1fr; margin: 25px auto; }
+            .features { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a class="brand" href="{% url 'home' %}">◈ Trust<span>Vault</span></a>
+        <nav>
+            <a class="btn secondary" href="{% url 'login' %}">Sign In</a>
+            <a class="btn primary" href="{% url 'signup' %}">Create Account</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div>
+                <div class="eyebrow">Private by design</div>
+                <h1>Welcome to TrustVault</h1>
+                <p class="intro">
+                    Secure document sharing, with an audit trail.
+                    Store your documents, manage access, and keep track
+                    of important activity in one secure workspace.
+                </p>
+                <div class="actions">
+                    <a class="btn primary" href="{% url 'signup' %}">
+                        Create Your Account →
+                    </a>
+                    <a class="btn secondary" href="{% url 'login' %}">
+                        Sign In
+                    </a>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="symbol">◈</div>
+                <h2>Your documents. Your control.</h2>
+                <p>
+                    Access your private dashboard after signing in.
+                    Share documents with authorized users and manage
+                    their permissions.
+                </p>
+                <p>✓ Private document access</p>
+                <p>✓ Permission-based sharing</p>
+                <p>✓ Auditable activity</p>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="feature">
+                <h3>🔐 Secure storage</h3>
+                <p>Keep uploaded documents accessible only through authorized application views.</p>
+            </div>
+            <div class="feature">
+                <h3>👥 Controlled sharing</h3>
+                <p>Grant or revoke document access according to permissions.</p>
+            </div>
+            <div class="feature">
+                <h3>📋 Audit trail</h3>
+                <p>Record document activity and verify audit integrity.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>TrustVault · Private by default · Every access decision is made on the server</footer>
+</body>
+</html>

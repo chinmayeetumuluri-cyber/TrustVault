@@ -1,18 +1,51 @@
+
 {% extends "base.html" %}
+
 {% block title %}Sign in · TrustVault{% endblock %}
+
 {% block content %}
 <div class="loginbox">
-  <div style="text-align:center;margin-bottom:20px"><div style="font-size:38px">◈</div><h1 style="margin:0">Welcome to TrustVault</h1><p class="muted">Secure document sharing, with an audit trail.</p></div>
+
+  <div style="text-align:center; margin-bottom:20px">
+    <div style="font-size:38px">🛡️</div>
+    <h1 style="margin:0">Welcome to TrustVault</h1>
+    <p class="muted">Your documents. Your control. Your trust.</p>
+  </div>
+
   <div class="card">
     <h2 class="section-title">Sign in to your vault</h2>
-    {% if form.errors %}<p class="errors">Username or password is incorrect. Please try again.</p>{% endif %}
-    <form method="post">{% csrf_token %}
-      <label for="id_username">Username</label>{{ form.username }}
-      <label for="id_password">Password</label>{{ form.password }}
+
+    {% if form.errors %}
+      <p class="errors">
+        Username or password is incorrect. Please try again.
+      </p>
+    {% endif %}
+
+    <form method="post">
+      {% csrf_token %}
+
+      <label for="id_username">Username</label>
+      {{ form.username }}
+
+      <label for="id_password">Password</label>
+      {{ form.password }}
+
       <input type="hidden" name="next" value="{{ next }}">
-      <button class="btn" type="submit" style="width:100%;margin-top:18px">Sign in securely</button>
+
+      <button class="btn" type="submit"
+              style="width:100%; margin-top:18px">
+        Sign in securely
+      </button>
     </form>
-    <p class="muted small" style="margin-bottom:0">Accounts are provisioned by an administrator. Public registration is disabled.</p>
+
+    <p style="text-align:right; margin-top:14px">
+      <a href="{% url 'password_reset' %}">Forgot password?</a>
+    </p>
+
+    <p class="muted small" style="margin-bottom:0">
+      New to TrustVault?
+      <a href="{% url 'signup' %}">Create an account</a>
+    </p>
   </div>
 </div>
 {% endblock %}
